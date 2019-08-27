@@ -20,7 +20,8 @@ Fband = './vasprun.xml'
 Fkpts = './KPOINTS'
 Fsave = './ygband.png' # None, 'Show', [ 'Show', './ygband.pdf', 'ygband.png' ]
 spin_proj = None       # 1, 'x', 2, 'y', 3, 'z'
-x_range = None         # [0,150] | [0, [50, 100], 150]
-e_ticks = None         # [[-4., 0.], [-2., 2.], [0., 4.], [2., 6.]]
+x_range   = None       # [0,150] | [0, [50, 100], 150] normal : choose range to see, if outer->KPOINTS
+e_ticks   = None       # [[-4., 0.], [-2., 2.], [0., 4.], [2., 6.]] (vs fermi level, label)
+fermi     = None       # Set external fermi level
 
-vpl.vasplot(target=target, Fdos=Fdos, Fband=Fband, Fkpts=Fkpts, e_range=e_range, Fsave=Fsave, spin_proj=spin_proj, x_range=x_range, e_ticks=e_ticks)
+vpl.vasplot(target=target, Fdos=Fdos, Fband=Fband, Fkpts=Fkpts, e_range=e_range, Fsave=Fsave, spin_proj=spin_proj, x_range=x_range, e_ticks=e_ticks, fermi = fermi)
