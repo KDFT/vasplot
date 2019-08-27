@@ -8,9 +8,9 @@ from dos.DOSplot import DOSplot
 from band.bandplot import bandplot
 
 class vasplot:
-  def __init__(self, target=None, Fdos=None, Fband=None, Fkpts=None, e_range=[-3,3], Fsave=None, spin_proj=None, x_range=None, e_ticks=None):
+  def __init__(self, target=None, Fdos=None, Fband=None, Fkpts=None, e_range=[-3,3], Fsave=None, spin_proj=None, x_range=None, e_ticks=None, fermi = None):
 # Read basic information
-    ispin, fermi, species = self.read_parm(Fdos, Fband)
+    ispin, fermi, species = self.read_parm(Fdos, Fband, fermi)
     if spin_proj != None:
       if spin_proj.lower() == 'x': spin_proj = 1
       if spin_proj.lower() == 'y': spin_proj = 2
@@ -26,7 +26,7 @@ class vasplot:
     self.save_plot(Fsave)
 
 # Read basic information
-  def read_parm(self, Fdos=None, Fband=None):
+  def read_parm(self, Fdos=None, Fband=None, fermi=None):
     if Fdos != None   : root = ET.parse(Fdos).getroot()
     elif Fband != None: root = ET.parse(Fband).getroot()
     else:
@@ -39,7 +39,7 @@ class vasplot:
       ispin=int(spin_tag.find('i[@name="ISPIN"]').text)
     else: ispin = 4
 
-    fermi = float(root.find("calculation").find("dos").find("i").text)   # fermi level
+    if fermi == None: fermi = float(root.find("calculation").find("dos").find("i").text)
 
 # Species[ion] = atomic symbol
     species = []
@@ -73,7 +73,9 @@ class vasplot:
 
     title = ''
     for s in spec_index.keys():
-      title += s + '$_{' + str(len(spec_index[s]))+  '}$'
+      title += s
+      if len(spec_index[s]) != 1:
+        title += '$_{' + str(len(spec_index[s]))+  '}$'
 
     return title, spec_index
 
