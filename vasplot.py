@@ -8,10 +8,10 @@ from dos.DOSplot import DOSplot
 from band.bandplot import bandplot
 
 class vasplot:
-  def __init__(self, target=None, Fdos=None, Fband=None, Fkpts=None, e_range=[-3,3], Fsave=None, spin_proj=None, x_range=None, e_ticks=None, fermi = None):
+  def __init__(self, target=None, Fdos=None, Fband=None, Fkpts=None, e_range=[-3,3], Fsave=None, spin_proj=None, x_range=None, e_ticks=None, fermi = None, plot_mode = 'fat'):
 # Read basic information
     ispin, fermi, species = self.read_parm(Fdos, Fband, fermi)
-    if spin_proj != None:
+    if isinstance(spin_proj, str):
       if spin_proj.lower() == 'x': spin_proj = 1
       if spin_proj.lower() == 'y': spin_proj = 2
       if spin_proj.lower() == 'z': spin_proj = 3
@@ -20,7 +20,7 @@ class vasplot:
     target, title, lgd = self.pretreatment(target, species, ispin, spin_proj)
 
 # Get figure
-    self.get_plot(target, Fdos, Fband, Fkpts, e_range, fermi, ispin, title, lgd, spin_proj, x_range, e_ticks)
+    self.get_plot(target, Fdos, Fband, Fkpts, e_range, fermi, ispin, title, lgd, spin_proj, x_range, e_ticks, plot_mode)
 
 # Save figure
     self.save_plot(Fsave)
@@ -159,10 +159,10 @@ class vasplot:
 
     return
 
-  def get_plot(self, target, Fdos, Fband, Fkpts, e_range, fermi, ispin, title, lgd, spin_proj, x_range, e_ticks):
+  def get_plot(self, target, Fdos, Fband, Fkpts, e_range, fermi, ispin, title, lgd, spin_proj, x_range, e_ticks, plot_mode):
     if Fdos == None:
       fig, ax = plt.subplots(1,1)
-      bandplot(ax, Fband, Fkpts, target, e_range, fermi, ispin, lgd, spin_proj, x_range, e_ticks)
+      bandplot(ax, Fband, Fkpts, target, e_range, fermi, ispin, lgd, spin_proj, x_range, e_ticks, plot_mode)
 
     elif Fband == None:
       fig, ax = plt.subplots(1,1)
@@ -170,7 +170,7 @@ class vasplot:
 
     else:
       fig, ax = plt.subplots(1,2, gridspec_kw = {'width_ratios':[3, 1], 'wspace':0.1})
-      bandplot(ax[0], Fband, Fkpts, target, e_range, fermi, ispin, lgd, spin_proj, x_range, e_ticks)
+      bandplot(ax[0], Fband, Fkpts, target, e_range, fermi, ispin, lgd, spin_proj, x_range, e_ticks, plot_mode)
       DOSplot(ax[1], Fdos, target, e_range, fermi, ispin, False, e_ticks)
 
     fig.suptitle(title, y=0.92)

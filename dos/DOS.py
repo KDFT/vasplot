@@ -53,7 +53,8 @@ class DOS:
         break
 
     if e_range_index[0] < 1                : e_range_index[0] = 1
-    if e_range_index[1] > len(DOS.energy)-2: e_range_index[0] = len(DOS.energy) - 2
+    if len(e_range_index) == 1: e_range_index.append(len(DOS.energy) - 2)
+    if e_range_index[1] > len(DOS.energy)-2: e_range_index[1] = len(DOS.energy) - 2
     DOS.energy = DOS.energy[e_range_index[0]:e_range_index[1]]
     DOS.e_range_index = e_range_index
 

@@ -4,7 +4,7 @@ import re
 from band.band import Band, FatBand, SpinProjBand, transpose
 
 class bandplot:
-  def __init__(self, ax, Fband, Fkpts, target, e_range, fermi, ispin, lgd, spin_proj, x_range, e_ticks):
+  def __init__(self, ax, Fband, Fkpts, target, e_range, fermi, ispin, lgd, spin_proj, x_range, e_ticks, plot_mode):
     print("\n==== Band plotting start ====")
 # Set plot environments
     root = ET.parse(Fband).getroot()
@@ -14,17 +14,21 @@ class bandplot:
 
     self.set_env(ax, Kdist, kticks, klabel, e_range, e_ticks)
 
-    proj_tag = root.find("calculation").find("projected")
+    proj_tag = root.find("calculation")
+    if 'projected' in [i.tag for i in proj_tag.getchildren()]:
+      proj_tag = root.find("calculation").find("projected")
     band, fatband, norm = self.bandrepair(proj_tag, target, kptlist, e_range, fermi, ispin, spin_proj, x_range)
+
+    if plot_mode == 'line': lgd = False
 
     legends = []
     for fb in fatband:
-      line = fb.plotfatband(ax, Kdist, norm)
+      line = fb.plotfatband(ax, Kdist, norm, plot_mode)
       legends.append(line)
 # Set legend
     if lgd: self.set_legend(ax, target, legends)
 
-    band.plotband(ax, Kdist)
+    if plot_mode != 'line': band.plotband(ax, Kdist)
 
     print("===== Band plotting end =====")
 
@@ -45,7 +49,9 @@ class bandplot:
 # Kdist[kpt]
     Kdist =[0.]
     kpt2 = None
-    for k in kptlist:
+    distold = None
+#   for k in kptlist:
+    for x,k in enumerate(kptlist):
       kpt1 = [0., 0., 0.]
       for i,ktemp in enumerate(k.text.split()):
         for j in range(3):
@@ -55,8 +61,15 @@ class bandplot:
           dsum = 0.
           for i in range(3):
             dsum += (kpt2[i]-kpt1[i])**2
+          dist = dsum**0.5
+          if distold == None:
+            Kdist.append(Kdist[-1] + dist)
+          elif abs((distold - dist)/distold) < 2. :
+            Kdist.append(Kdist[-1] + dist)
+          else:
+            Kdist.append(Kdist[-1])
 # Add k-distance along band line
-          Kdist.append(Kdist[-1] + dsum**0.5)
+          distold = dist
 # For discontinued band
         else:
           Kdist.append(Kdist[-1])

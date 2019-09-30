@@ -25,3 +25,4 @@ e_ticks   = None       # [[-4., 0.], [-2., 2.], [0., 4.], [2., 6.]] (vs fermi le
 fermi     = None       # Set external fermi level
 
 vpl.vasplot(target=target, Fdos=Fdos, Fband=Fband, Fkpts=Fkpts, e_range=e_range, Fsave=Fsave, spin_proj=spin_proj, x_range=x_range, e_ticks=e_ticks, fermi = fermi)
+vpl.vasplot(target=target, Fdos=Fdos, Fband=Fband, Fkpts=Fkpts, e_range=e_range, Fsave=Fsave, spin_proj=spin_proj, x_range=x_range, e_ticks=e_ticks, fermi = fermi, plot_mode = None)
