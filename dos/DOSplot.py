@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import xml.etree.ElementTree as ET
+import xml.etree.cElementTree as ET
 from dos.DOS import DOS, PDOS, transpose
 
 class DOSplot:
