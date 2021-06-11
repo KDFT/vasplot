@@ -92,6 +92,13 @@ class Band:
     else:
       for b in Band.eigen:
         ax.plot(Kdist, b, color='grey',linewidth=1.)
+      if False:
+        with open('snu.txt', 'w') as f:
+          snu = transpose([ Kdist ] + Band.eigen)
+          for i in snu:
+            for j in i:
+              f.write('{0:15.7f}'.format(j))
+            f.write('\n')
 
 class FatBand(Band):
   procar = None
