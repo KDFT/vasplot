@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-import xml.etree.ElementTree as ET
+import xml.etree.cElementTree as ET
 import re
-from band.band import Band, FatBand, SpinProjBand, transpose
+from band import Band, FatBand, SpinProjBand, transpose
 
 class bandplot:
   def __init__(self, ax, Fband, Fkpts, target, e_range, fermi, ispin, lgd, spin_proj, x_range, e_ticks, plot_mode):
@@ -177,7 +177,7 @@ class bandplot:
     ax.set_xticklabels(klabel)
     ax.set_xlim(0,Kdist[-1])
     ax.set_ylim(e_range[0], e_range[1])
-    ax.set_ylabel("Energy vs E$_{f}$ (eV)")
+    ax.set_ylabel("Energy vs E$_{\rm{F}}$ (eV)")
     if e_ticks != None:
       e_ticks, e_label = transpose(e_ticks)
       ax.set_yticks(e_ticks)
