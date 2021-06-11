@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
-import xml.etree.ElementTree as ET
+import matplotlib as mpl
+mpl.use('agg')
+import xml.etree.cElementTree as ET
 import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 import random
 from target import set_target
 from dos.DOSplot import DOSplot
 from band.bandplot import bandplot
+import time
 
 class vasplot:
   def __init__(self, target=None, Fdos=None, Fband=None, Fkpts=None, e_range=[-3,3], Fsave=None, spin_proj=None, x_range=None, e_ticks=None, fermi = None, plot_mode = 'fat'):
 # Read basic information
+    tstart = time.time()
     ispin, fermi, species = self.read_parm(Fdos, Fband, fermi)
     if isinstance(spin_proj, str):
       if spin_proj.lower() == 'x': spin_proj = 1
@@ -24,6 +28,8 @@ class vasplot:
 
 # Save figure
     self.save_plot(Fsave)
+    tend = time.time()
+    print("Time : {0}".format(tend-tstart))
 
 # Read basic information
   def read_parm(self, Fdos=None, Fband=None, fermi=None):
