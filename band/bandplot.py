@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import xml.etree.cElementTree as ET
 import re
-from band import Band, FatBand, SpinProjBand, transpose
+try: from band.band import Band, FatBand, SpinProjBand, transpose
+except: from band import Band, FatBand, SpinProjBand, transpose
 
 class bandplot:
   def __init__(self, ax, Fband, Fkpts, target, e_range, fermi, ispin, lgd, spin_proj, x_range, e_ticks, plot_mode):
