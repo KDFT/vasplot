@@ -178,7 +178,7 @@ class bandplot:
     ax.set_xticklabels(klabel)
     ax.set_xlim(0,Kdist[-1])
     ax.set_ylim(e_range[0], e_range[1])
-    ax.set_ylabel("Energy vs E$_{\rm{F}}$ (eV)")
+    ax.set_ylabel(r"Energy vs E$_{\rm{F}}$ (eV)")
     if e_ticks != None:
       e_ticks, e_label = transpose(e_ticks)
       ax.set_yticks(e_ticks)
