@@ -109,7 +109,7 @@ class FatBand(Band):
       procar_tag = Band.proj_tag.find("array").find("set")
 # procar[k][b][i][o]
       FatBand.procar = Rprocar(procar_tag[0], Band.window, Band.x_range)
-      if Band.ispin == 2: FatBand.procardn = Rprocar(procar_tag[1], Band.window, Band.x_range)
+      if Band.ispin == 2: FatBand.procardn = Rprocar(procar_tag[1], Band.windowdn, Band.x_range)
     self.target = target
     self.fat = combine_fat(FatBand.procar, target)
     self.fmax = maxfat(self.fat)
