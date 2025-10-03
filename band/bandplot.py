@@ -16,7 +16,8 @@ class bandplot:
     self.set_env(ax, Kdist, kticks, klabel, e_range, e_ticks)
 
     proj_tag = root.find("calculation")
-    if 'projected' in [i.tag for i in proj_tag.getchildren()]:
+#   if 'projected' in [i.tag for i in proj_tag.getchildren()]:
+    if any(child.tag == 'projected' for child in proj_tag):
       proj_tag = root.find("calculation").find("projected")
     band, fatband, norm = self.bandrepair(proj_tag, target, kptlist, e_range, fermi, ispin, spin_proj, x_range)
 
